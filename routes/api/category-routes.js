@@ -10,12 +10,12 @@ router.get('/', (req, res) => {
       model: Product,
       attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
     }
-  }).then(categories => {
-    if (!categories) {
-      res.status(404).json({ message: 'No categories found' });
+  }).then(category => {
+    if (!category) {
+      res.status(404).json({ message: 'No categories found.' });
       return;
     }
-    res.json(categories);
+    res.json(category);
   }).catch(err => {
     if (err) throw err; //if it gives error, throws out
   });
@@ -31,12 +31,12 @@ router.get('/:id', (req, res) => {
       model: Product,
       attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
     }
-  }).then(categories => {
-    if (!categories) {
-      res.status(404).json({ message: 'No categories found' });
+  }).then(category => {
+    if (!category) {
+      res.status(404).json({ message: 'No categories found.' });
       return;
     }
-    res.json(categories);
+    res.json(category);
   }).catch(err => {
     if (err) throw err; //if it gives error, throws out
   });
@@ -46,7 +46,13 @@ router.post('/', (req, res) => {
   // create a new category
   Category.create({
     category_name: req.body.category_name
-  }).then(categories => res.json(categories))
+  }).then(category => {
+    if (!category) {
+      res.status(404).json({ message: 'No categories found.' });
+      return;
+    }
+    res.json(category);
+  })
   .catch(err => {
     if (err) throw err; //if it gives error, throws out
   });
@@ -54,10 +60,38 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
+  Category.update({
+    where: {
+      id: req.params.id
+    }
+    }).then(category => {
+      if (!category) {
+        res.status(404).json({ message: 'No categories found.' });
+        return;
+      }
+      res.json(category);
+    })
+  .catch(err => {
+    if (err) throw err; //if it gives error, throws out
+  });
 });
 
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
+  Category.destroy({
+    where: {
+      id: req.params.id
+    }
+    }).then(category => {
+      if (!category) {
+        res.status(404).json({ message: 'No categories found.' });
+        return;
+      }
+      res.json(category);
+    })
+  .catch(err => {
+    if (err) throw err; //if it gives error, throws out
+  });
 });
 
 module.exports = router;
