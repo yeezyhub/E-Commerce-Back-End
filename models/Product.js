@@ -36,6 +36,7 @@ Product.init(
     },
     category_id: {
       type: DataTypes.INTEGER,
+      //using references for foreign key
       references: {
         model: 'category',
         key: 'id'
