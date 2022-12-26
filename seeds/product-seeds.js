@@ -1,5 +1,6 @@
 const { Product } = require('../models');
 
+//seeds for products
 const productData = [
   {
     product_name: 'Plain T-Shirt',
